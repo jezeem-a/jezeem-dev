@@ -1,6 +1,8 @@
 import './style.css'
 import { inject } from '@vercel/analytics'
+import { injectSpeedInsights } from '@vercel/speed-insights'
 inject()
+injectSpeedInsights()
 import * as THREE from 'three'
 import { initBackground, tick } from './scene/background.js'
 import { initMac } from './intro/mac.js'
