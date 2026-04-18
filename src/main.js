@@ -61,9 +61,32 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix()
 })
 
-// Fade in background only after intro completes
 document.addEventListener('intro-complete', () => {
   gsap.to(canvas, { opacity: 1, duration: 1, ease: 'power2.out' })
+  
+  // Subtle Konami hint after intro
+  const hint = document.createElement('div')
+  hint.textContent = '↑↑↓↓←→←→ba'
+  hint.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-family: 'VT323', monospace;
+    font-size: 12px;
+    color: #33ff33;
+    opacity: 0;
+    transition: opacity 0.5s;
+    cursor: default;
+    user-select: none;
+  `
+  hint.title = "try the Konami Code"
+  document.body.appendChild(hint)
+  
+  setTimeout(() => hint.style.opacity = '0.3', 2500)
+  setTimeout(() => {
+    hint.style.opacity = '0'
+    setTimeout(() => hint.remove(), 500)
+  }, 7000)
 })
 
 // Animation loop

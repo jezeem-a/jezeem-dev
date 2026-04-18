@@ -17,6 +17,13 @@ const COMMANDS = {
     '  cat contact  — get in touch',
     '  clear        — clear terminal',
     '  exit         — close terminal',
+    '  secret      — ?',
+  ],
+  secret: () => [
+    '┌─────────────────────────────────────┐',
+    '│  hint: ↑↑↓↓←→←→ba ( Konami Code )  │',
+    '└─────────────────────────────────────┘',
+    '  press keys in order on your keyboard...',
   ],
   clear: () => null,
   exit: () => null,
