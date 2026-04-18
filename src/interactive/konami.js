@@ -251,6 +251,23 @@ function startDiagnostic() {
   const output = overlay.querySelector('.konami-output')
   const timeEl = overlay.querySelector('#konami-time')
   
+  // Allow escape to exit
+  const handleEsc = (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      clearInterval(timeInterval)
+      gsap.to(overlay, {
+        opacity: 0,
+        duration: 0.3,
+        onComplete() {
+          overlay.remove()
+          style.remove()
+        }
+      })
+    }
+  }
+  document.addEventListener('keydown', handleEsc)
+  
   let startTime = Date.now()
   let timeInterval = setInterval(() => {
     const elapsed = Math.floor((Date.now() - startTime) / 1000)
@@ -301,17 +318,22 @@ function startDiagnostic() {
     await addLine('', '', 500)
     await addLine('[SYSTEM] Analyzing system resources...', '', 600)
     
-    const cpuLine = await addLine('CPU:    [                    ] 0%', '', 800)
-    const memLine = await addLine('MEMORY: [                    ] 0%', '', 900)
+    await addLine('', '', 500)
+    output.innerHTML += '<div class="konami-line">CPU:    [                    ] 0%</div>'
+    output.innerHTML += '<div class="konami-line">MEMORY: [                    ] 0%</div>'
+    output.scrollTop = output.scrollHeight
+    const lines = output.querySelectorAll('.konami-line')
+    const cpuLine = lines[lines.length - 2]
+    const memLine = lines[lines.length - 1]
     
     for (let i = 0; i <= 100; i += 5) {
+      await new Promise(r => setTimeout(r, 80))
       const bar = '█'.repeat(i / 5 * 2) + ' '.repeat(20 - i / 5 * 2)
-      cpuLine.textContent = `CPU:    [${bar}] ${i}%`
-      memLine.textContent = `MEMORY: [${bar}] ${i}%`
+      if (cpuLine) cpuLine.textContent = `CPU:    [${bar}] ${i}%`
+      if (memLine) memLine.textContent = `MEMORY: [${bar}] ${i}%`
+      output.scrollTop = output.scrollHeight
       
       if (i > 70) playBeep(300 + i * 10, 0.02)
-      
-      await new Promise(r => setTimeout(r, 100))
     }
     
     await addLine('[OK] Resources at maximum capacity', '', 400)
@@ -321,8 +343,8 @@ function startDiagnostic() {
     
     await addLine('', '', 300)
     
-    for (let i = 0; i < WARNINGS.length; i++) {
-      await addLine(WARNINGS[i], 'konami-warning', 400)
+    for (const warn of WARNINGS) {
+      await addLine(warn, 'konami-warning', 350)
       playBeep(200 + Math.random() * 400, 0.03, 'sawtooth')
     }
     
@@ -349,12 +371,14 @@ function startDiagnostic() {
     await new Promise(r => setTimeout(r, 2000))
     
     clearInterval(timeInterval)
+    document.removeEventListener('keydown', handleEsc)
     
     gsap.to(overlay, {
       opacity: 0,
       duration: 1,
       ease: 'power2.inOut',
       onComplete() {
+        document.removeEventListener('keydown', handleEsc)
         overlay.remove()
         style.remove()
       }
