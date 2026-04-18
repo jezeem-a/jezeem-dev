@@ -7,6 +7,7 @@ import { initExperience } from './zones/experience.js'
 import { initSkills } from './zones/skills.js'
 import { initSocials } from './zones/socials.js'
 import { initWildcard } from './zones/wildcard.js'
+import { initTerminal } from './interactive/terminal.js'
 
 // Three.js renderer attached to #bg-canvas
 const canvas = document.getElementById('bg-canvas')
@@ -27,6 +28,7 @@ initExperience()
 initSkills()
 initSocials()
 initWildcard()
+initTerminal()
 
 // Corner blink cursor
 const cornerCursor = document.createElement('div')
