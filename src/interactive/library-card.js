@@ -1,6 +1,6 @@
 import gsap from 'gsap'
 
-const BOOKS_2026 = 0
+const BOOKS_2026 = 8
 
 export function initLibraryCard() {
   const card = document.createElement('div')
