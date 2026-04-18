@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>jezeem.dev</title>
     <meta name="description" content="software engineer. flutter. react. builder." />
@@ -17,6 +17,14 @@
   <body>
     <canvas id="bg-canvas"></canvas>
     <div id="main-content" style="visibility: hidden;"></div>
+    <div id="mobile-fallback">
+      <div style="font-size:22px;color:#888;">software engineer. flutter. react. builder.</div>
+      <div style="font-size:16px;color:#444;">[ best viewed on desktop ]</div>
+      <div style="margin-top:24px;font-size:18px;">
+        <a href="https://github.com/jezeem-a" target="_blank" style="color:#33ff33;text-decoration:none;display:block;margin-bottom:8px;">&gt; GitHub ↗</a>
+        <a href="https://linkedin.com/in/jezeem" target="_blank" style="color:#33ff33;text-decoration:none;display:block;">&gt; LinkedIn ↗</a>
+      </div>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

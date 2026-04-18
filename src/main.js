@@ -9,6 +9,7 @@ import { initSocials } from './zones/socials.js'
 import { initWildcard } from './zones/wildcard.js'
 import { initTerminal } from './interactive/terminal.js'
 import { initGlitchGame } from './interactive/glitch-game.js'
+import { initCursor } from './utils/cursor.js'
 
 // Three.js renderer attached to #bg-canvas
 const canvas = document.getElementById('bg-canvas')
@@ -31,6 +32,7 @@ initSocials()
 initWildcard()
 initTerminal()
 initGlitchGame()
+initCursor()
 
 // Corner blink cursor
 const cornerCursor = document.createElement('div')

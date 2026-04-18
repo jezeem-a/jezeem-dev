@@ -28,8 +28,10 @@ html, body {
   background: var(--bg-primary);
   font-family: 'VT323', monospace;
   color: var(--text-primary);
-  cursor: crosshair;
+  cursor: none;
 }
+
+* { cursor: none !important; }
 
 /* Three.js canvas — fills viewport behind everything */
 #bg-canvas {
@@ -65,20 +67,18 @@ body::after {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.04) 2px,
-    rgba(0, 0, 0, 0.04) 4px
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
   );
-  animation: crt-flicker 6s infinite;
+  animation: crt-flicker 7s infinite;
 }
 
 @keyframes crt-flicker {
-  0%   { opacity: 1; }
-  92%  { opacity: 1; }
-  93%  { opacity: 0.97; }
-  94%  { opacity: 1; }
-  96%  { opacity: 0.98; }
-  97%  { opacity: 1; }
-  100% { opacity: 1; }
+  0%,89%       { filter: brightness(1); }
+  90%          { filter: brightness(0.97); }
+  91%          { filter: brightness(1); }
+  94%          { filter: brightness(0.98); }
+  95%,100%     { filter: brightness(1); }
 }
 
 /* Phosphor green blinking cursor in corner */
@@ -97,4 +97,52 @@ body::after {
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
+}
+
+/* ── Responsive fallback ── */
+@media (max-width: 768px) {
+  #bg-canvas,
+  #main-content,
+  #mac-intro,
+  #corner-cursor,
+  #custom-cursor {
+    display: none !important;
+  }
+
+  body::after { display: none; }
+
+  body {
+    cursor: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  body::before {
+    content: 'jezeem.dev';
+    display: block;
+    font-family: 'VT323', monospace;
+    font-size: 48px;
+    color: #33ff33;
+    text-shadow: 0 0 12px rgba(51,255,51,0.7);
+    margin-bottom: 12px;
+  }
+
+  #mobile-fallback {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+}
+
+#mobile-fallback {
+  display: none;
+  font-family: 'VT323', monospace;
+  color: #e0e0e0;
+  text-align: center;
 }
