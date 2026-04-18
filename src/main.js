@@ -10,9 +10,11 @@ import { initWildcard } from './zones/wildcard.js'
 import { initTerminal } from './interactive/terminal.js'
 import { initGlitchGame } from './interactive/glitch-game.js'
 import { initCursor } from './utils/cursor.js'
+import gsap from 'gsap'
 
 // Three.js renderer attached to #bg-canvas
 const canvas = document.getElementById('bg-canvas')
+canvas.style.opacity = '0'
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: false })
 renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
@@ -45,6 +47,11 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight)
   camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()
+})
+
+// Fade in background only after intro completes
+document.addEventListener('intro-complete', () => {
+  gsap.to(canvas, { opacity: 1, duration: 1, ease: 'power2.out' })
 })
 
 // Animation loop
