@@ -148,6 +148,7 @@ function startDiagnostic() {
     fontSize: '14px',
     color: '#33ff33',
     overflow: 'hidden',
+    cursor: 'default',
   })
   
   const style = document.createElement('style')
@@ -256,10 +257,12 @@ function startDiagnostic() {
     if (e.key === 'Escape') {
       e.preventDefault()
       clearInterval(timeInterval)
+      document.removeEventListener('keydown', handleEsc)
       gsap.to(overlay, {
         opacity: 0,
         duration: 0.3,
         onComplete() {
+          document.removeEventListener('keydown', handleEsc)
           overlay.remove()
           style.remove()
         }
@@ -267,6 +270,12 @@ function startDiagnostic() {
     }
   }
   document.addEventListener('keydown', handleEsc)
+  
+  // Show exit hint
+  const exitHint = document.createElement('div')
+  exitHint.textContent = '[ESC] to abort'
+  exitHint.style.cssText = 'position:absolute;bottom:10px;right:15px;font-size:12px;opacity:0.5;'
+  overlay.querySelector('.konami-content').appendChild(exitHint)
   
   let startTime = Date.now()
   let timeInterval = setInterval(() => {
@@ -319,18 +328,25 @@ function startDiagnostic() {
     await addLine('[SYSTEM] Analyzing system resources...', '', 600)
     
     await addLine('', '', 500)
-    output.innerHTML += '<div class="konami-line">CPU:    [                    ] 0%</div>'
-    output.innerHTML += '<div class="konami-line">MEMORY: [                    ] 0%</div>'
+    
+    const cpuBar = '░'.repeat(20)
+    const memBar = '░'.repeat(20)
+    const cpuLineEl = document.createElement('div')
+    cpuLineEl.className = 'konami-line'
+    cpuLineEl.textContent = `CPU:    [${cpuBar}] 0%`
+    const memLineEl = document.createElement('div')
+    memLineEl.className = 'konami-line'
+    memLineEl.textContent = `MEMORY: [${memBar}] 0%`
+    output.appendChild(cpuLineEl)
+    output.appendChild(memLineEl)
     output.scrollTop = output.scrollHeight
-    const lines = output.querySelectorAll('.konami-line')
-    const cpuLine = lines[lines.length - 2]
-    const memLine = lines[lines.length - 1]
     
     for (let i = 0; i <= 100; i += 5) {
       await new Promise(r => setTimeout(r, 80))
-      const bar = '█'.repeat(i / 5 * 2) + ' '.repeat(20 - i / 5 * 2)
-      if (cpuLine) cpuLine.textContent = `CPU:    [${bar}] ${i}%`
-      if (memLine) memLine.textContent = `MEMORY: [${bar}] ${i}%`
+      const filled = '█'.repeat(i / 5 * 2)
+      const empty = '░'.repeat(20 - i / 5 * 2)
+      cpuLineEl.textContent = `CPU:    [${filled}${empty}] ${i}%`
+      memLineEl.textContent = `MEMORY: [${filled}${empty}] ${i}%`
       output.scrollTop = output.scrollHeight
       
       if (i > 70) playBeep(300 + i * 10, 0.02)
