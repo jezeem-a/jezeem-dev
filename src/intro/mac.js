@@ -28,44 +28,69 @@ function triggerExpand(mac, screenEl, casingEl) {
   expanded = true
 
   const rect = screenEl.getBoundingClientRect()
+  const vw = window.innerWidth
+  const vh = window.innerHeight
 
-  // Create a fixed overlay that starts at the screen's position
-  const overlay = document.createElement('div')
-  overlay.style.cssText = `
+  // Fixed clone sitting exactly over the Mac screen — we scale THIS, not layout props
+  const clone = document.createElement('div')
+  clone.style.cssText = `
     position: fixed;
-    z-index: 999;
-    background: #0a0a0a;
-    top:    ${rect.top}px;
-    left:   ${rect.left}px;
-    width:  ${rect.width}px;
+    left: ${rect.left}px;
+    top: ${rect.top}px;
+    width: ${rect.width}px;
     height: ${rect.height}px;
-    border-radius: 4px;
+    background: #050f05;
+    z-index: 998;
+    border-radius: 3px;
+    will-change: transform, opacity;
   `
-  document.body.appendChild(overlay)
+  document.body.appendChild(clone)
+
+  // Scale factor needed to cover the full viewport from the screen's size
+  const targetScale = Math.max(vw / rect.width, vh / rect.height) * 1.15
 
   const tl = gsap.timeline({
     onComplete() {
-      overlay.remove()
+      clone.remove()
       mac.remove()
-      document.getElementById('main-content').style.visibility = 'visible'
       document.dispatchEvent(new CustomEvent('intro-complete'))
     }
   })
 
-  // Expand overlay to fill viewport
-  tl.to(overlay, {
-    top: 0, left: 0,
-    width: '100vw', height: '100vh',
+  // Mac casing recedes — shrinks back as if you're passing through the screen
+  tl.to(mac, {
+    scale: 0.85,
+    opacity: 0,
+    duration: 0.5,
+    ease: 'power2.in'
+  }, 0)
+
+  // Screen clone blasts toward the viewer (expo.in = slow start, dramatic rush)
+  tl.to(clone, {
+    scale: targetScale,
     borderRadius: 0,
-    duration: 1.2,
-    ease: 'power2.inOut'
-  })
+    duration: 0.72,
+    ease: 'expo.in'
+  }, 0.08)
 
-  // Fade out the casing early
-  tl.to(casingEl, { opacity: 0, duration: 0.4, ease: 'power2.in' }, 0)
+  // Phosphor green flash at peak zoom
+  tl.to(clone, {
+    backgroundColor: '#33ff33',
+    duration: 0.07,
+    ease: 'none'
+  }, 0.68)
 
-  // Fade out overlay at the end to reveal the canvas
-  tl.to(overlay, { opacity: 0, duration: 0.3, ease: 'power2.out' }, 1.1)
+  // Reveal site the moment the flash hits
+  tl.call(() => {
+    document.getElementById('main-content').style.visibility = 'visible'
+  }, [], 0.75)
+
+  // Flash bleaches out, site is underneath
+  tl.to(clone, {
+    opacity: 0,
+    duration: 0.45,
+    ease: 'power2.out'
+  }, 0.75)
 }
 
 // ─── Boot Sequence ────────────────────────────────────────────────────────────
