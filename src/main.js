@@ -1,6 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { initBackground, tick } from './scene/background.js'
+import { initMac } from './intro/mac.js'
 
 // Three.js renderer attached to #bg-canvas
 const canvas = document.getElementById('bg-canvas')
@@ -15,6 +16,7 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 camera.position.z = 5
 
 initBackground(scene)
+initMac()
 
 // Corner blink cursor
 const cornerCursor = document.createElement('div')
