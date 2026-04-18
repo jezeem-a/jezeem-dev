@@ -1,4 +1,6 @@
 import './style.css'
+import { inject } from '@vercel/analytics'
+inject()
 import * as THREE from 'three'
 import { initBackground, tick } from './scene/background.js'
 import { initMac } from './intro/mac.js'
