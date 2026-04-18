@@ -1,7 +1,7 @@
 import gsap from 'gsap'
 
 const COMMANDS = {
-  whoami: () => ['jezeem — builder. flutter. react. ai buff.'],
+  whoami: () => ['jezeem — builder. software engineer. ai buff.'],
   'ls projects': () => ['incredible-visibility/  side-projects/  open-source/'],
   'cat skills': () => [
     '> JS', '> TypeScript', '> React', '> Flutter', '> Dart',
