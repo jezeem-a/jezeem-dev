@@ -36,7 +36,7 @@ export function initExperience() {
       <div style="color:#33ff33;margin-bottom:6px;">&gt; WORK EXPERIENCE</div>
       <div style="color:#444;margin-bottom:8px;">─────────────────────────</div>
       <div>Incredible Visibility</div>
-      <div style="color:#888;font-size:14px;">Software Engineer</div>
+      <div style="color:#888;font-size:14px;">Builder</div>
       <div style="color:#888;font-size:14px;">2021 → Present</div>
       <div style="color:#444;margin:8px 0;">─────────────────────────</div>
       <a href="https://incrediblevisibility.com" target="_blank" rel="noopener" style="

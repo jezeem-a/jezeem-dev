@@ -352,7 +352,7 @@ function startDiagnostic() {
     await addLine('[SYSTEM] Initiating override protocol...', '', 600)
     await addLine('[SYSTEM] Bypassing security layers...', '', 800)
     await addLine('[SYSTEM] Accessing user database...', '', 1000)
-    await addLine('[OK] User verified: jezeem', '', 1200)
+    await addLine('[OK] Identity verified: jezeem', '', 1200)
     
     await addLine('', '', 500)
     

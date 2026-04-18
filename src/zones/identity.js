@@ -41,7 +41,7 @@ function startTypewriter() {
   const typer  = document.getElementById('identity-typewriter')
   const status = document.getElementById('identity-status')
 
-  const line = '> software engineer. flutter. react. builder.'
+  const line = '> builder. flutter. react. ai buff.'
   let typed = ''
   let charIndex = 0
 
