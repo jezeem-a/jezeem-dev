@@ -8,7 +8,7 @@ const COMMANDS = {
     '> Expo', '> Git', '> Node.js', '> Firebase', '> REST API',
     '> React Native', '> VSCode'
   ],
-  'cat contact': () => ['email: hey@jezeem.dev'],
+  'cat contact': () => ['email: jezeem.dev@gmail.com'],
   help: () => [
     'available commands:',
     '  whoami       — who is this person',
