@@ -2,12 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>jezeem-dev</title>
+    <title>jezeem.dev</title>
+    <meta name="description" content="software engineer. flutter. react. builder." />
+    <meta property="og:title" content="jezeem.dev" />
+    <meta property="og:description" content="software engineer. flutter. react. builder." />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <div id="app"></div>
+    <canvas id="bg-canvas"></canvas>
+    <div id="main-content" style="visibility: hidden;"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
