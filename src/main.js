@@ -14,6 +14,7 @@ import { initWildcard } from './zones/wildcard.js'
 import { initTerminal } from './interactive/terminal.js'
 import { initGlitchGame } from './interactive/glitch-game.js'
 import { initKonami } from './interactive/konami.js'
+import { initLibraryCard } from './interactive/library-card.js'
 import { initCursor } from './utils/cursor.js'
 import { createCRTComposer } from './scene/crt-shader.js'
 import gsap from 'gsap'
@@ -45,6 +46,7 @@ initTerminal()
 initGlitchGame()
 initCursor()
 initKonami()
+initLibraryCard()
 
 // Corner blink cursor
 const cornerCursor = document.createElement('div')
