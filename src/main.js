@@ -14,13 +14,14 @@ import { initWildcard } from './zones/wildcard.js'
 import { initTerminal } from './interactive/terminal.js'
 import { initGlitchGame } from './interactive/glitch-game.js'
 import { initCursor } from './utils/cursor.js'
+import { createCRTComposer } from './scene/crt-shader.js'
 import gsap from 'gsap'
 
 // Three.js renderer attached to #bg-canvas
 const canvas = document.getElementById('bg-canvas')
 canvas.style.opacity = '0'
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: false })
-renderer.setPixelRatio(window.devicePixelRatio)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.setClearColor(0x0a0a0a)
 
@@ -28,6 +29,9 @@ const scene = new THREE.Scene()
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera.position.z = 5
+
+// CRT post-processing
+const crt = createCRTComposer(renderer, scene, camera)
 
 initBackground(scene)
 initMac()
@@ -48,8 +52,10 @@ document.body.appendChild(cornerCursor)
 
 // Resize handler
 window.addEventListener('resize', () => {
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  camera.aspect = window.innerWidth / window.innerHeight
+  const w = window.innerWidth, h = window.innerHeight
+  renderer.setSize(w, h)
+  crt.setSize(w, h)
+  camera.aspect = w / h
   camera.updateProjectionMatrix()
 })
 
@@ -59,10 +65,12 @@ document.addEventListener('intro-complete', () => {
 })
 
 // Animation loop
+let clock = 0
 function animate() {
   requestAnimationFrame(animate)
+  clock += 0.016
   tick()
-  renderer.render(scene, camera)
+  crt.render(clock)
 }
 
 animate()
