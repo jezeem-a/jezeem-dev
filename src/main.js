@@ -2,6 +2,11 @@ import './style.css'
 import * as THREE from 'three'
 import { initBackground, tick } from './scene/background.js'
 import { initMac } from './intro/mac.js'
+import { initIdentity } from './zones/identity.js'
+import { initExperience } from './zones/experience.js'
+import { initSkills } from './zones/skills.js'
+import { initSocials } from './zones/socials.js'
+import { initWildcard } from './zones/wildcard.js'
 
 // Three.js renderer attached to #bg-canvas
 const canvas = document.getElementById('bg-canvas')
@@ -17,6 +22,11 @@ camera.position.z = 5
 
 initBackground(scene)
 initMac()
+initIdentity()
+initExperience()
+initSkills()
+initSocials()
+initWildcard()
 
 // Corner blink cursor
 const cornerCursor = document.createElement('div')
