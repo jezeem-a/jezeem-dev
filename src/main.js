@@ -6,13 +6,7 @@ injectSpeedInsights()
 import * as THREE from 'three'
 import { initBackground, tick } from './scene/background.js'
 import { initMac } from './intro/mac.js'
-import { initIdentity } from './zones/identity.js'
-import { initExperience } from './zones/experience.js'
-import { initSkills } from './zones/skills.js'
-import { initSocials } from './zones/socials.js'
-import { initWildcard } from './zones/wildcard.js'
-import { initTerminal } from './interactive/terminal.js'
-import { initGlitchGame } from './interactive/glitch-game.js'
+import { initOS } from './os/desktop.js'
 import { initKonami } from './interactive/konami.js'
 import { initLibraryCard } from './interactive/library-card.js'
 import { initCursor } from './utils/cursor.js'
@@ -37,22 +31,9 @@ const crt = createCRTComposer(renderer, scene, camera)
 
 initBackground(scene)
 initMac()
-initIdentity()
-initExperience()
-initSkills()
-initSocials()
-initWildcard()
-initTerminal()
-initGlitchGame()
 initCursor()
 initKonami()
 initLibraryCard()
-
-// Corner blink cursor
-const cornerCursor = document.createElement('div')
-cornerCursor.id = 'corner-cursor'
-cornerCursor.textContent = '█'
-document.body.appendChild(cornerCursor)
 
 // Resize handler
 window.addEventListener('resize', () => {
@@ -65,30 +46,7 @@ window.addEventListener('resize', () => {
 
 document.addEventListener('intro-complete', () => {
   gsap.to(canvas, { opacity: 1, duration: 1, ease: 'power2.out' })
-  
-  // Subtle Konami hint after intro
-  const hint = document.createElement('div')
-  hint.textContent = '↑↑↓↓←→←→ba'
-  hint.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-family: 'VT323', monospace;
-    font-size: 12px;
-    color: #33ff33;
-    opacity: 0;
-    transition: opacity 0.5s;
-    cursor: default;
-    user-select: none;
-  `
-  hint.title = "try the Konami Code"
-  document.body.appendChild(hint)
-  
-  setTimeout(() => hint.style.opacity = '0.3', 2500)
-  setTimeout(() => {
-    hint.style.opacity = '0'
-    setTimeout(() => hint.remove(), 500)
-  }, 7000)
+  initOS()
 })
 
 // Animation loop

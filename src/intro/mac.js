@@ -127,7 +127,36 @@ function runBootSequence(screenEl, onDone) {
     }
   })
 
-  tl.to({}, { duration: 0.8 })
+  tl.to({}, { duration: 0.6 })
+
+  // OS boot log lines
+  const bootLines = [
+    'jezeem.dev [Version 1.0.0]',
+    'loading kernel....... OK',
+    'loading desktop...... OK',
+    'welcome back, jezeem',
+  ]
+  let bootText = text1
+  for (const bootLine of bootLines) {
+    let accumulated = ''
+    tl.to({}, {
+      duration: bootLine.length * 0.025,
+      onUpdate() {
+        const chars = Math.floor(this.progress() * bootLine.length)
+        if (chars !== accumulated.length) {
+          accumulated = bootLine.slice(0, chars)
+          const display = (bootText + '\n' + accumulated).replace(/\n/g, '<br>')
+          textEl.innerHTML = display + '<span class="inline-cursor">█</span>'
+        }
+      },
+      onComplete() {
+        bootText = bootText + '\n' + bootLine
+      }
+    })
+    tl.to({}, { duration: 0.12 })
+  }
+
+  tl.to({}, { duration: 0.5 })
 
   // Type "click to enter"
   const line2 = '\nclick to enter'
@@ -139,7 +168,7 @@ function runBootSequence(screenEl, onDone) {
       const chars = Math.floor(progress * line2.length)
       if (chars !== text2.length) {
         text2 = line2.slice(0, chars)
-        const display = (text1 + text2).replace('\n', '<br>')
+        const display = (bootText + text2).replace(/\n/g, '<br>')
         textEl.innerHTML = display + '<span class="inline-cursor blink">█</span>'
       }
     },
